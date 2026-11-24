@@ -4,9 +4,41 @@ All notable changes to `phil/reporting-bundle` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## 0.2.0-alpha - 2026-11-24
+
+Two reports for a learning system, the training hours and costs by period and
+organisational unit, and the template of Quebec's 1 % of payroll for workforce skills development. A minor version
+and not a patch: three ports join those of 0.1, and an application that connects a `TrainingSource` sees two more
+reports among its own. See [Training hours and costs](doc/training.md) and
+[The 1 % of payroll template](doc/quebec-one-percent.md).
+
+### Added
+
+- `TrainingSource`, `UnitDirectory` and `PayrollSource`: the activities of a learning system in a currency, the path of
+  an organisational unit from its root, the payroll of a period; `TrainingActivity` — its day, hours in hundredths,
+  cost and eligible cost in minor units, unit — and `UnitNode`, each bounded.
+- `TrainingLedger`, the activities totalled by period — the whole period, or its months, quarters or years — and by
+  unit, with the units below it or alone, in the order of the tree, at most 50 000 totals; `TrainingTotals`,
+  `TrainingStep`, `CurrencyAmounts`.
+- The report `training_hours`: hours, costs and eligible costs by period and unit, with the parameters `step`,
+  `include_below`, `unit` and `locale`.
+- The report `training_quebec_1_percent`: hours, costs, eligible costs, payroll, the required investment of 1 %, the
+  eligible costs as a share of the payroll, the shortfall and the threshold of two million dollars, by period, with
+  the parameters `step`, `payroll` and `locale`.
+- `TrainingHeadings`, the titles and headings in the `phil_reporting` domain, in English and French;
+  `TrainingParameters`; `TrainingReportsPass`, which leaves the training reports out of an application without a
+  `TrainingSource`.
+
+### Changed
+
+- `Period::split()` declares a list that is never empty.
+- Requires the latest minor of each dependency (`symfony/service-contracts` 3.8), and of each development requirement
+  (`symfony/ux-live-component` 3.8.1, `twig/twig` 3.31, `symfony/ux-twig-component` 3.8, `easycorp/easyadmin-bundle`
+  5.10, …): `symfony/ux-live-component` 3.8.1 fixes CVE-2026-133774 and CVE-2026-133778.
+
 ## 0.1.3-alpha - 2026-11-18
 
-The next version is 0.1.3-alpha: the jobs and exports of the `directory` store are readable by their owner alone from
+The jobs and exports of the `directory` store are readable by their owner alone from
 the moment they exist, and an open store directory is narrowed to its owner. See
 [The directory of the claim check](doc/installation.md#the-directory-of-the-claim-check).
 
